@@ -42,18 +42,22 @@ class DB:
         self.__engine = create_engine(mysql_url, echo=False)
     
     def all(self, cls=None):
-        """query on the current database session to retieve all"""
+        """Queries the current database session to retieve all instances of a specific class"""
         new_dict = {}
+        # Iterate through each key of the classes dictionary
         for clss in classes:
             if cls is None or cls is classes[clss] or cls is clss:
+                # Queries the database and retrieves all instances of the class associated with the current key
                 objs = self.__session.query(classes[clss]).all()
+                # Iterate through each retrieved instance of the specified clas
                 for obj in objs:
+                    # create a key for the new_dict
                     key = obj.__class__.__name__ + '.' + str(obj.id)
                     new_dict[key] = obj
         return (new_dict)
     
     def get(self, cls, id):
-        """ retrieves a single instance"""
+        """Retrieves a single instance of the class"""
         if cls in classes.values() and id and type(id) == str:
             d_obj = self.all(cls)
             for key, value in d_obj.items():
