@@ -8,6 +8,7 @@ like templates and static files
 """
 app = Flask(__name__)
 
+# Register the blueprint
 app.register_blueprint(app_views)
 
 @app.route("/")
